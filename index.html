@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>file uploader</title>
+  </head>
+  <body>
+    <form id="form">
+      <input name="file" id="uploadfile" type="file">
+      <input name="filename" id="filename" type="text">
+      <input id="submit" type="submit">
+
+    </form>
+    <script>
+    const results = document.getElementById('resp')
+    const form = document.getElementById('form');
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const file = form.file.files[0];
+      const fr = new FileReader();
+      fr.readAsArrayBuffer(file);
+      fr.onload = f => {
+        
+        const url = "url of the web app";
+        
+        const qs = new URLSearchParams({filename: form.filename.value || file.name, mimeType: file.type});
+        fetch(`${url}?${qs}`, {method: "POST", body: JSON.stringify([...new Int8Array(f.target.result)])})
+        .then(res => res.json())
+        .then(e => console.log(e))  
+        .catch(err => console.log(err));
+  }
+    });
+    </script>
+  </body>
+</html>
