@@ -1,16 +1,3 @@
-function doPost(e) {
-  try {
-    const folder = DriveApp.getFolderById(e.parameter.folder);
-    const blob = Utilities.newBlob(JSON.parse(e.postData.contents), e.parameter.mimeType, e.parameter.fileName);
-    folder.createFile(blob);
-  } catch (error) {
-    console.log('Error uploading certificate', error);
-    return ContentService.createTextOutput(JSON.stringify({ status: 'failed', data: JSON.stringify(e) }))
-      .setMimeType(ContentService.MimeType.JSON);
-  }
-  return ContentService.createTextOutput(JSON.stringify({ status: 'ok' })).setMimeType(ContentService.MimeType.JSON);
-}
-
 function doGet(e) {
   try {
     let parent = DriveApp.getFolderById('16mW9k1AAo-E95qIe4B0prLbjzEpuUvRe');
